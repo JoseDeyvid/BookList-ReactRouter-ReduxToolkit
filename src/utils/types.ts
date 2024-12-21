@@ -3,5 +3,6 @@ export type Book = {
   image_url: string;
   author: string;
   title: string;
-  synopsis: string | undefined;
+  synopsis?: string;
+  read: boolean;
 };

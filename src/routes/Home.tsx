@@ -1,11 +1,14 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { booksSelector } from "../store/booksSlice";
+import Header from "../components/Header";
 
 const Home = () => {
   const books = useSelector(booksSelector);
+  console.log(books);
   return (
     <div>
+      <Header />
       <h1>Lista de livros</h1>
       {books.length ? (
         <div>
