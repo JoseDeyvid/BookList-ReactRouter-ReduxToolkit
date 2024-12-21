@@ -1,4 +1,4 @@
-// import styles from "./App.module.scss";
+import styles from "./App.module.scss";
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./routes/Home";
@@ -9,7 +9,7 @@ import store from "./store/store.ts";
 
 function App() {
   return (
-    <div>
+    <div className={styles.container}>
       <Provider store={store}>
         <BrowserRouter>
           <Routes>

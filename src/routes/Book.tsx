@@ -13,7 +13,7 @@ const Book = () => {
 
   const handleDeleteBook = () => {
     dispatch(deleteBook(book.id));
-    navigate("-1");
+    navigate("/");
   };
 
   return (

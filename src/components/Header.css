@@ -1,0 +1,19 @@
+.headerContainer {
+  display: flex;
+  list-style: none;
+  gap: 1rem;
+  justify-content: end;
+}
+
+li a {
+  text-decoration: none;
+  color: #000;
+  background-color: #ccc;
+  padding: 0.5rem;
+  border-radius: 12px;
+}
+
+.active {
+  background-color: rgb(29, 109, 29);
+  color: #fff;
+}

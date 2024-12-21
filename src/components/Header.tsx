@@ -1,18 +1,16 @@
-import React from "react";
+import "./Header.css";
 import { NavLink } from "react-router-dom";
 
 const Header = () => {
   return (
-    <div>
-      <ul>
-        <li>
-          <NavLink to={"/"}>Livros</NavLink>
-        </li>
-        <li>
-          <NavLink to={"/add-book"}>Novo livro</NavLink>
-        </li>
-      </ul>
-    </div>
+    <ul className={"headerContainer"}>
+      <li>
+        <NavLink to={"/"}>Livros</NavLink>
+      </li>
+      <li>
+        <NavLink to={"/add-book"}>Novo livro</NavLink>
+      </li>
+    </ul>
   );
 };
 
