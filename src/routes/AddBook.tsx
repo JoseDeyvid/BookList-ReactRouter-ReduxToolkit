@@ -3,10 +3,12 @@ import Header from "../components/Header";
 import { useDispatch, useSelector } from "react-redux";
 import { addBook, booksSelector } from "../store/booksSlice";
 import { Book } from "../utils/types";
+import { useNavigate } from "react-router-dom";
 
 const AddBook = () => {
   const books = useSelector(booksSelector);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [title, setTitle] = useState("");
   const [cover, setCover] = useState("");
@@ -24,6 +26,7 @@ const AddBook = () => {
     };
 
     dispatch(addBook(newBook));
+    navigate("/");
   };
   return (
     <div>

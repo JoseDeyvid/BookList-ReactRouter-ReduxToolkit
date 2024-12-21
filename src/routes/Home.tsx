@@ -2,9 +2,11 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { booksSelector } from "../store/booksSlice";
 import Header from "../components/Header";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const books = useSelector(booksSelector);
+  const navigate = useNavigate();
   console.log(books);
   return (
     <div>
@@ -14,7 +16,11 @@ const Home = () => {
         <div>
           {books.map((book) => (
             <div key={book.id}>
-              <img src={book.image_url} alt={book.title} />
+              <img
+                src={book.image_url}
+                alt={book.title}
+                onClick={() => navigate(`/book/${book.id}`)}
+              />
               <p>{book.author}</p>
               <h6>{book.title}</h6>
             </div>
