@@ -6,12 +6,14 @@ import AddBook from "./routes/AddBook";
 import Book from "./routes/Book";
 import { Provider } from "react-redux";
 import store from "./store/store.ts";
+import Header from "./components/Header.tsx";
 
 function App() {
   return (
     <div>
       <Provider store={store}>
         <BrowserRouter>
+          <Header />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="add-book" element={<AddBook />} />

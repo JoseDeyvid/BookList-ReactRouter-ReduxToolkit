@@ -1,9 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "./store";
+import { Book } from "../utils/types";
+
+const initialState: Book[] = [];
 
 const bookSlice = createSlice({
   name: "books",
-  initialState: [1, 2, 3],
+  initialState,
   reducers: {},
 });
 
