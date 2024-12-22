@@ -3,11 +3,12 @@ import { booksSelector } from "../store/booksSlice";
 import Header from "../components/Header";
 import { useNavigate } from "react-router-dom";
 import styles from "./Home.module.scss";
+import { CiRead, CiUnread } from "react-icons/ci";
+import { useState } from "react";
 
 const Home = () => {
   const books = useSelector(booksSelector);
   const navigate = useNavigate();
-  console.log(books);
   return (
     <div>
       <Header />
@@ -20,6 +21,12 @@ const Home = () => {
               className={styles.book}
               onClick={() => navigate(`/book/${book.id}`)}
             >
+              {book.read ? (
+                <CiRead className={styles.read} />
+              ) : (
+                <CiUnread className={styles.unread} />
+              )}
+
               <img src={book.image_url} alt={book.title} />
               <p>{book.author}</p>
               <h6>{book.title}</h6>
