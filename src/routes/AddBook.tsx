@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addBook, booksSelector } from "../store/booksSlice";
 import { Book } from "../utils/types";
 import { useNavigate } from "react-router-dom";
+import styles from "./AddBook.module.scss";
 
 const AddBook = () => {
   const books = useSelector(booksSelector);
@@ -29,11 +30,11 @@ const AddBook = () => {
     navigate("/");
   };
   return (
-    <div>
+    <div className={styles.container}>
       <Header />
       <h1>Adicionando novo livro</h1>
-      <div>
-        <label htmlFor="title">Título: *</label>
+      <div className={styles.formControl}>
+        <label htmlFor="title">Título:</label>
         <input
           type="text"
           placeholder="Digite o título do livro..."
@@ -41,8 +42,8 @@ const AddBook = () => {
           onChange={(e) => setTitle(e.target.value)}
         />
       </div>
-      <div>
-        <label htmlFor="cover">Capa: *</label>
+      <div className={styles.formControl}>
+        <label htmlFor="cover">Capa:</label>
         <input
           type="text"
           placeholder="Digite a url da capa do livro..."
@@ -50,8 +51,8 @@ const AddBook = () => {
           onChange={(e) => setCover(e.target.value)}
         />
       </div>
-      <div>
-        <label htmlFor="author">Autor: *</label>
+      <div className={styles.formControl}>
+        <label htmlFor="author">Autor:</label>
         <input
           type="text"
           placeholder="Digite o autor do livro..."
@@ -59,8 +60,8 @@ const AddBook = () => {
           onChange={(e) => setAuthor(e.target.value)}
         />
       </div>
-      <div>
-        <label htmlFor="synopsis">Título:</label>
+      <div className={styles.formControl}>
+        <label htmlFor="synopsis">Sinopse:</label>
         <textarea
           placeholder="Digite a sinopse do livro..."
           value={synopsis}

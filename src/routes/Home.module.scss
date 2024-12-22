@@ -1,0 +1,32 @@
+.books {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
+  margin-top: 2rem;
+  text-align: center;
+
+  .book {
+    width: 200px;
+    margin-top: 1rem;
+    cursor: pointer;
+
+    img {
+      width: 100%;
+      height: 300px;
+      border-radius: 12px;
+      object-fit: cover;
+    }
+
+    p {
+      padding: 0.3rem;
+      font-size: 12px;
+    }
+
+    h6 {
+      padding: 0.3rem;
+      font-style: italic;
+      font-weight: bold;
+      font-size: 14px;
+    }
+  }
+}
