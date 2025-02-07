@@ -2,11 +2,12 @@ import styles from "./Book.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { booksSelector, deleteBook, toogleBook } from "../store/booksSlice";
-import { IoMdArrowDropright } from "react-icons/io";
-import { IoIosArrowRoundBack } from "react-icons/io";
+import { IoMdArrowDropright, IoMdArrowDropdown, IoIosArrowRoundBack } from "react-icons/io";
+import { useState } from "react";
 
 
 const Book = () => {
+  const [showPopup, setShowPopup] = useState(false);
   const navigate = useNavigate();
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -22,7 +23,7 @@ const Book = () => {
   return (
     <div className={styles.container}>
       <button onClick={() => navigate("/")} className={styles.backBtn}>
-        <IoIosArrowRoundBack/>
+        <IoIosArrowRoundBack />
       </button>
       {book ? (
         <>
@@ -59,10 +60,22 @@ const Book = () => {
               <h4>title</h4>
               <p>Note description</p>
             </div>
-            <button className={styles.addNote}>
-              <IoMdArrowDropright />
+            <button className={styles.addNote} onClick={() => setShowPopup(!showPopup)}>
+              {showPopup ? <IoMdArrowDropdown /> : <IoMdArrowDropright />}
               Add a Note
             </button>
+            {showPopup && <div className={styles.addNoteContainer}>
+              <div className={styles.formControl}>
+                <label htmlFor="title">Title *</label>
+                <input type="text" placeholder="Type note title" />
+              </div>
+              <div className={styles.formControl}>
+                <label htmlFor="note">Nota *</label>
+                <textarea placeholder="Type a comment..." />
+              </div>
+              <button>Add Note</button>
+            </div>}
+
           </div>
         </>
       ) : (
