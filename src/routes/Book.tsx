@@ -2,6 +2,9 @@ import styles from "./Book.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { booksSelector, deleteBook, toogleBook } from "../store/booksSlice";
+import { IoMdArrowDropright } from "react-icons/io";
+import { IoIosArrowRoundBack } from "react-icons/io";
+
 
 const Book = () => {
   const navigate = useNavigate();
@@ -19,28 +22,49 @@ const Book = () => {
   return (
     <div className={styles.container}>
       <button onClick={() => navigate("/")} className={styles.backBtn}>
-        Voltar
+        <IoIosArrowRoundBack/>
       </button>
       {book ? (
-        <div className={styles.book}>
-          <img src={book.image_url} alt={book.title} />
-          <div className={styles.infos}>
-            <h3>{book.title}</h3>
-            <h4>{book.author}</h4>
-            <p>{book.synopsis}</p>
-            <div className={styles.actions}>
-              <div className={styles.inputControl}>
-                <input
-                  type="checkbox"
-                  checked={book.read}
-                  onChange={() => dispatch(toogleBook(book.id))}
-                />
-                <label htmlFor="">{book.read ? "Lido" : "Não lido"}</label>
+        <>
+          <div className={styles.book}>
+            <img src={book.image_url} alt={book.title} />
+            <div className={styles.infos}>
+              <h3>{book.title}</h3>
+              <h4>{book.author}</h4>
+              <p>{book.synopsis}</p>
+              <div className={styles.actions}>
+                <div className={styles.inputControl}>
+                  <input
+                    type="checkbox"
+                    checked={book.read}
+                    onChange={() => dispatch(toogleBook(book.id))}
+                  />
+                  <label htmlFor="">{book.read ? "Lido" : "Não lido"}</label>
+                </div>
+                <button onClick={handleDeleteBook}>Deletar</button>
               </div>
-              <button onClick={handleDeleteBook}>Deletar</button>
             </div>
           </div>
-        </div>
+          <div className={styles.notes}>
+            <h3>Reader's Notes</h3>
+            <div className={styles.note}>
+              <h4>title</h4>
+              <p>Note description</p>
+            </div>
+            <div className={styles.note}>
+              <h4>title</h4>
+              <p>Note description</p>
+            </div>
+            <div className={styles.note}>
+              <h4>title</h4>
+              <p>Note description</p>
+            </div>
+            <button className={styles.addNote}>
+              <IoMdArrowDropright />
+              Add a Note
+            </button>
+          </div>
+        </>
       ) : (
         <p>Livro não encontrado.</p>
       )}
