@@ -6,3 +6,10 @@ export type Book = {
   synopsis?: string;
   read: boolean;
 };
+
+export type Note = {
+  id?: number;
+  book_id: number;
+  title: string;
+  body: string;
+}

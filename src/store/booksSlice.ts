@@ -10,6 +10,7 @@ const bookSlice = createSlice({
   reducers: {
     addBook: (state, action: PayloadAction<Book>) => {
       const newBook = action.payload;
+      console.log(newBook);
       newBook.id = state.length
         ? Math.max(...state.map((book) => book.id)) + 1
         : 0;
