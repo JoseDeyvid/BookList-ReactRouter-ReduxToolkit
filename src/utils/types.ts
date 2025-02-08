@@ -8,7 +8,7 @@ export type Book = {
 };
 
 export type Note = {
-  id?: number;
+  id: number;
   book_id: number;
   title: string;
   body: string;

@@ -17,9 +17,8 @@ const AddBook = () => {
   const [synopsis, setSynopsis] = useState("");
 
   const handleAddBook = () => {
-    const newBook: Book = {
+    const newBook = {
       author,
-      id: books.length ? Math.max(...books.map((book) => book.id)) + 1 : 0,
       image_url: cover,
       read: false,
       title,
@@ -40,6 +39,8 @@ const AddBook = () => {
           placeholder="Digite o título do livro..."
           value={title}
           onChange={(e) => setTitle(e.target.value)}
+          name="title"
+          id="title"
         />
       </div>
       <div className={styles.formControl}>
@@ -49,6 +50,8 @@ const AddBook = () => {
           placeholder="Digite a url da capa do livro..."
           value={cover}
           onChange={(e) => setCover(e.target.value)}
+          name="cover"
+          id="cover"
         />
       </div>
       <div className={styles.formControl}>
@@ -58,6 +61,8 @@ const AddBook = () => {
           placeholder="Digite o autor do livro..."
           value={author}
           onChange={(e) => setAuthor(e.target.value)}
+          name="author"
+          id="author"
         />
       </div>
       <div className={styles.formControl}>
@@ -66,6 +71,8 @@ const AddBook = () => {
           placeholder="Digite a sinopse do livro..."
           value={synopsis}
           onChange={(e) => setSynopsis(e.target.value)}
+          name="synopsis"
+          id="synopsis"
         />
       </div>
       <button onClick={handleAddBook}>Salvar livro</button>

@@ -5,7 +5,6 @@ import { booksSelector, deleteBook, toogleBook } from "../store/booksSlice";
 import { IoMdArrowDropright, IoMdArrowDropdown, IoIosArrowRoundBack } from "react-icons/io";
 import { useState } from "react";
 import { addNote, notesSelector } from "../store/notesSlice";
-import { Note } from "../utils/types";
 
 
 const Book = () => {
@@ -28,14 +27,16 @@ const Book = () => {
   };
 
   const handleAddNote = () => {
-    const newNote: Note = {
-      book_id: Number(id),
-      title: noteTitle,
-      body: noteBody,
+    if (noteTitle.trim() && noteBody.trim()) {
+      const newNote = {
+        book_id: Number(id),
+        title: noteTitle,
+        body: noteBody,
+      }
+      dispatch(addNote(newNote));
     }
-    dispatch(addNote(newNote));
-  }
 
+  }
   return (
     <div className={styles.container}>
       <button onClick={() => navigate("/")} className={styles.backBtn}>
@@ -56,7 +57,7 @@ const Book = () => {
                     checked={book.read}
                     onChange={() => dispatch(toogleBook(book.id))}
                   />
-                  <label htmlFor="">{book.read ? "Lido" : "Não lido"}</label>
+                  <label>{book.read ? "Lido" : "Não lido"}</label>
                 </div>
                 <button onClick={handleDeleteBook}>Deletar</button>
               </div>
@@ -65,7 +66,7 @@ const Book = () => {
           <div className={styles.notes}>
             <h3>Reader's Notes</h3>
             {notes.length ? notes.map((note) => (
-              <div className={styles.note}>
+              <div className={styles.note} key={note.id}>
                 <h4>{note.title}</h4>
                 <p>{note.body}</p>
               </div>
@@ -77,11 +78,11 @@ const Book = () => {
             {showPopup && <div className={styles.addNoteContainer}>
               <div className={styles.formControl}>
                 <label htmlFor="title">Title *</label>
-                <input type="text" placeholder="Type note title" value={noteTitle} onChange={(e) => setNoteTitle(e.target.value)} />
+                <input required name="title" type="text" placeholder="Type note title" value={noteTitle} onChange={(e) => setNoteTitle(e.target.value)} />
               </div>
               <div className={styles.formControl}>
                 <label htmlFor="note">Nota *</label>
-                <textarea placeholder="Type a comment..." value={noteBody} onChange={(e) => setNoteBody(e.target.value)}/>
+                <textarea required name="note" placeholder="Type a comment..." value={noteBody} onChange={(e) => setNoteBody(e.target.value)} />
               </div>
               <button onClick={handleAddNote}>Add Note</button>
             </div>}

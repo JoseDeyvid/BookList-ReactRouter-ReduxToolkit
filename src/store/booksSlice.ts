@@ -8,15 +8,11 @@ const bookSlice = createSlice({
   name: "books",
   initialState,
   reducers: {
-    addBook: (state, action: PayloadAction<Book>) => {
-      const newBook = action.payload;
-      console.log(newBook);
-      newBook.id = state.length
+    addBook: (state, action: PayloadAction<Omit<Book, "id">>) => {
+      const id = state.length
         ? Math.max(...state.map((book) => book.id)) + 1
         : 0;
-
-      newBook.read = false;
-      state.push(newBook);
+      state.push({ ...action.payload, id });
     },
     deleteBook: (state, action: PayloadAction<number>) => {
       return state.filter((book) => book.id !== action.payload);

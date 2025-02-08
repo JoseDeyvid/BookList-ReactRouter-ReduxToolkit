@@ -92,4 +92,34 @@
       color: #555;
     }
   }
+
+  .addNoteContainer {
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+
+    .formControl {
+      display: flex;
+      flex-direction: column;
+      gap: .3rem;
+      margin-bottom: 1rem;
+
+      input, textarea {
+        padding: .5rem;
+        border-radius: 12px;
+        border: 2px solid #888;
+      }
+    }
+    button {
+      padding: .5rem;
+      border-radius: 12px;
+      border: 2px solid #888;
+      cursor: pointer;
+      &:hover {
+        background-color: #000;
+        color: #fff;
+        border-color: #000;
+      }
+    }
+  }
 }
