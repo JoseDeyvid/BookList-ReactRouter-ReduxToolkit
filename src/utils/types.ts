@@ -14,6 +14,6 @@ export type Note = {
   body: string;
 }
 
-export type user = {
+export type User = {
   email: string
 }
