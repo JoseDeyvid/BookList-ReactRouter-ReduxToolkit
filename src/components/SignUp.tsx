@@ -1,4 +1,6 @@
 import React, { ChangeEvent, FormEvent, useState } from 'react'
+import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
+import { app } from "../config/firebase.ts"
 
 type SignUpProps = {
   email: string,
@@ -10,8 +12,27 @@ const SignUp = () => {
   const [formFields, setFormFields] = useState<SignUpProps>({ email: "", password: "", confirmPassword: "" });
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
+    const auth = getAuth(app);
+    console.log(auth)
+    const { email, password, confirmPassword } = formFields
 
-    console.log(formFields)
+    if (!email.trim() || !password.trim() || !confirmPassword.trim()) {
+      console.log("Todos os campos devem ser preenchidos!")
+      return;
+    }
+
+    if (confirmPassword !== password) {
+      console.log("Senhas devem ser iguais!")
+      return;
+    }
+
+    createUserWithEmailAndPassword(auth, email, password).then((userCredential) => {
+      console.log(userCredential);
+    }).catch((error) => {
+      console.log(error.message)
+    })
+
+
 
   }
   const handleChangeField = (e: ChangeEvent<HTMLInputElement>) => {
@@ -33,7 +54,7 @@ const SignUp = () => {
         <label htmlFor="">Confirm Password</label>
         <input type="password" name='confirmPassword' value={formFields.confirmPassword} onChange={handleChangeField} />
       </div>
-      <button type='submit'>Login</button>
+      <button type='submit'>Register</button>
     </form>
   )
 }
