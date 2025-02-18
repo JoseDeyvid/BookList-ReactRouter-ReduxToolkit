@@ -13,3 +13,7 @@ export type Note = {
   title: string;
   body: string;
 }
+
+export type user = {
+  email: string
+}

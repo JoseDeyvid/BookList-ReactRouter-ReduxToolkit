@@ -10,9 +10,9 @@ type SignUpProps = {
 
 const SignUp = () => {
   const [formFields, setFormFields] = useState<SignUpProps>({ email: "", password: "", confirmPassword: "" });
+  const auth = getAuth(app);
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    const auth = getAuth(app);
     console.log(auth)
     const { email, password, confirmPassword } = formFields
 

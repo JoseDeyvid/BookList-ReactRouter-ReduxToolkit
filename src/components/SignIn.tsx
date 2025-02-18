@@ -1,4 +1,6 @@
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import React, { ChangeEvent, FormEvent, useState } from 'react'
+import { app } from '../config/firebase';
 
 type SignInProps = {
   email: string,
@@ -7,10 +9,16 @@ type SignInProps = {
 
 const SignIn = () => {
   const [formFields, setFormFields] = useState<SignInProps>({ email: "", password: "" });
+  const auth = getAuth(app)
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
+    const {email, password} = formFields
 
-    console.log(formFields)
+    signInWithEmailAndPassword(auth, email, password).then((userCredential) => {
+      console.log(userCredential.user)
+    }).catch((error) => {
+      console.log(error.message)
+    })
 
   }
   const handleChangeField = (e: ChangeEvent<HTMLInputElement>) => {
