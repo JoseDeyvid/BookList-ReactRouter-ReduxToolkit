@@ -1,8 +1,8 @@
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
 import React, { ChangeEvent, FormEvent, useState } from 'react'
 import { app } from '../config/firebase';
-import { useDispatch, useSelector } from 'react-redux';
-import { setUser, userSelector } from '../store/userSlice';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../store/userSlice';
 
 type SignInProps = {
   email: string,
@@ -13,13 +13,18 @@ const SignIn = () => {
   const [formFields, setFormFields] = useState<SignInProps>({ email: "", password: "" });
   const auth = getAuth(app)
   const dispatch = useDispatch();
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      dispatch(setUser({ email: user.email! }))
+    } else {
+      dispatch(setUser(null))
+    }
+  });
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     const { email, password } = formFields
 
-    signInWithEmailAndPassword(auth, email, password).then((userCredential) => {
-      dispatch(setUser({ email }))
-    }).catch((error) => {
+    signInWithEmailAndPassword(auth, email, password).catch((error) => {
       console.log(error.message)
     })
 

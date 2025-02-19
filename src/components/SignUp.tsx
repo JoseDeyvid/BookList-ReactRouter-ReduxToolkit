@@ -1,6 +1,8 @@
 import React, { ChangeEvent, FormEvent, useState } from 'react'
 import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import { app } from "../config/firebase.ts"
+import { useDispatch } from 'react-redux';
+import { setUser } from '../store/userSlice.ts';
 
 type SignUpProps = {
   email: string,
@@ -11,9 +13,9 @@ type SignUpProps = {
 const SignUp = () => {
   const [formFields, setFormFields] = useState<SignUpProps>({ email: "", password: "", confirmPassword: "" });
   const auth = getAuth(app);
+  const dispatch = useDispatch();
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    console.log(auth)
     const { email, password, confirmPassword } = formFields
 
     if (!email.trim() || !password.trim() || !confirmPassword.trim()) {
@@ -27,7 +29,7 @@ const SignUp = () => {
     }
 
     createUserWithEmailAndPassword(auth, email, password).then((userCredential) => {
-      console.log(userCredential);
+      dispatch(setUser({ email }))
     }).catch((error) => {
       console.log(error.message)
     })
