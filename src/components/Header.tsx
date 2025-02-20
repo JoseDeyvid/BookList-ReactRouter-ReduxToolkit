@@ -7,15 +7,18 @@ const Header = () => {
   const auth = getAuth(app);
   const navigate = useNavigate()
   const handleLogout = () => {
-    signOut(auth).then(() => {
-      navigate("/")
-    }).catch((error) => {
-      console.log(error.message)
-    });
+    if (confirm("Tem certeza que deseja sair?")) {
+      signOut(auth).then(() => {
+        navigate("/")
+      }).catch((error) => {
+        console.log(error.message)
+      });
+    }
+
   }
   return (
-    <div>
-      <ul className={"headerContainer"}>
+    <div className="headerContainer">
+      <ul className={"headerList"}>
         <li>
           <NavLink to={"/"}>Livros</NavLink>
         </li>
@@ -23,7 +26,7 @@ const Header = () => {
           <NavLink to={"/add-book"}>Novo livro</NavLink>
         </li>
       </ul>
-      <button onClick={handleLogout}>Logout</button>
+      <button id="logout" className="logout" onClick={handleLogout}>Logout</button>
     </div>
 
   );

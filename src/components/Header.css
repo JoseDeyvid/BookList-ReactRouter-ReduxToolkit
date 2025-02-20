@@ -1,5 +1,12 @@
 .headerContainer {
   display: flex;
+  justify-content: right;
+  gap: 2rem;
+  align-items: center;
+}
+
+.headerList {
+  display: flex;
   list-style: none;
   gap: 1rem;
   justify-content: end;
@@ -16,4 +23,21 @@ li a {
 .active {
   background-color: rgb(29, 109, 29);
   color: #fff;
+}
+
+/* .logout {
+  padding: .3rem;
+  cursor: pointer;
+  border: none;
+} */
+
+#logout {
+  padding: 0.5rem;
+  border-radius: 20px;
+  cursor: pointer;
+  border: 1px solid #000;
+}
+
+#logout:hover {
+  background-color: #ccc;
 }
