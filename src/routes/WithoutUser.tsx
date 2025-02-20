@@ -3,7 +3,8 @@ import SignUp from '../components/SignUp'
 import SignIn from '../components/SignIn'
 import { getAuth, sendPasswordResetEmail } from 'firebase/auth'
 import { app } from '../config/firebase'
-import { WiSleet } from 'react-icons/wi'
+
+import styles from "./WithoutUser.module.scss"
 
 const WithoutUser = () => {
     const [optionSelected, setOptionSelected] = useState("login")
@@ -12,9 +13,9 @@ const WithoutUser = () => {
         const email = prompt("Digite o email para redefinição de senha: ")
         if (email) {
             sendPasswordResetEmail(auth, email)
-            .then(() => {
-                alert("Verifique seu email para redefinir a senha.")
-            })
+                .then(() => {
+                    alert("Verifique seu email para redefinir a senha.")
+                })
                 .catch((error) => {
                     alert(error.message)
                 });
@@ -23,16 +24,18 @@ const WithoutUser = () => {
 
     }
     return (
-        <div>
+        <div className={styles.container}>
             <h1>Welcome to the Book App</h1>
             <p>Login or create account to continue</p>
-            <div>
-                <input type="radio" name='optionSelected' value={"login"} onChange={(e) => setOptionSelected(e.target.value)} checked={optionSelected === "login"} />
-                <label>Login</label>
-            </div>
-            <div>
-                <input type="radio" name='optionSelected' value={"signup"} onChange={(e) => setOptionSelected(e.target.value)} checked={optionSelected === "signup"} />
-                <label>Signup</label>
+            <div className={styles.options}>
+                <div className={styles.option}>
+                    <input className={styles.input} type="radio" name='login' id='login' value={"login"} onChange={(e) => setOptionSelected(e.target.value)} checked={optionSelected === "login"} />
+                    <label htmlFor='login'>Login</label>
+                </div>
+                <div className={styles.option}>
+                    <input type="radio" name='signup' id='signup' value={"signup"} onChange={(e) => setOptionSelected(e.target.value)} checked={optionSelected === "signup"} />
+                    <label htmlFor='signup'>Signup</label>
+                </div>
             </div>
             {optionSelected === "login" ? <SignIn /> : <SignUp />}
             <button onClick={handleForgotPassword}>Forgot password?</button>

@@ -39,11 +39,11 @@ const SignIn = () => {
   }
   return (
     <form onSubmit={handleSubmit}>
-      <div>
+      <div className={styles.formControl}>
         <label htmlFor="">Email</label>
         <input type="email" name='email' value={formFields.email} onChange={(e) => handleChangeField(e)} />
       </div>
-      <div>
+      <div className={styles.formControl}>
         <label htmlFor="">Password</label>
         <input type="password" name='password' value={formFields.password} onChange={handleChangeField} />
       </div>
