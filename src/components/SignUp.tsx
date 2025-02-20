@@ -2,8 +2,7 @@ import React, { ChangeEvent, FormEvent, useState } from 'react'
 import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import { app } from "../config/firebase.ts"
 import { useDispatch } from 'react-redux';
-import { setUser } from '../store/userSlice.ts';
-
+import styles from "./SignUp.module.scss"
 type SignUpProps = {
   email: string,
   password: string,
@@ -12,6 +11,7 @@ type SignUpProps = {
 
 const SignUp = () => {
   const [formFields, setFormFields] = useState<SignUpProps>({ email: "", password: "", confirmPassword: "" });
+  const [errorMessage, setErrorMessage] = useState("")
   const auth = getAuth(app);
   const dispatch = useDispatch();
   const handleSubmit = (e: FormEvent) => {
@@ -19,19 +19,17 @@ const SignUp = () => {
     const { email, password, confirmPassword } = formFields
 
     if (!email.trim() || !password.trim() || !confirmPassword.trim()) {
-      console.log("Todos os campos devem ser preenchidos!")
+      setErrorMessage("All fields must be filled.")
       return;
     }
 
     if (confirmPassword !== password) {
-      console.log("Senhas devem ser iguais!")
+      setErrorMessage("Passwords don't match.")
       return;
     }
 
-    createUserWithEmailAndPassword(auth, email, password).then((userCredential) => {
-      dispatch(setUser({ email }))
-    }).catch((error) => {
-      console.log(error.message)
+    createUserWithEmailAndPassword(auth, email, password).catch((error) => {
+      setErrorMessage(error.message)
     })
 
 
@@ -56,6 +54,7 @@ const SignUp = () => {
         <label htmlFor="">Confirm Password</label>
         <input type="password" name='confirmPassword' value={formFields.confirmPassword} onChange={handleChangeField} />
       </div>
+      {errorMessage ? <p className={styles.errorMessage}>{errorMessage}</p> : ""}
       <button type='submit'>Register</button>
     </form>
   )

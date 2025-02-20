@@ -4,6 +4,8 @@ import { app } from '../config/firebase';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../store/userSlice';
 
+import styles from "./SignIn.module.scss"
+
 type SignInProps = {
   email: string,
   password: string
@@ -11,6 +13,7 @@ type SignInProps = {
 
 const SignIn = () => {
   const [formFields, setFormFields] = useState<SignInProps>({ email: "", password: "" });
+  const [errorMessage, setErrorMessage] = useState("")
   const auth = getAuth(app)
   const dispatch = useDispatch();
   onAuthStateChanged(auth, (user) => {
@@ -25,7 +28,7 @@ const SignIn = () => {
     const { email, password } = formFields
 
     signInWithEmailAndPassword(auth, email, password).catch((error) => {
-      console.log(error.message)
+      setErrorMessage(error.message);
     })
 
   }
@@ -44,6 +47,7 @@ const SignIn = () => {
         <label htmlFor="">Password</label>
         <input type="password" name='password' value={formFields.password} onChange={handleChangeField} />
       </div>
+      {errorMessage ? <p className={styles.errorMessage}>{errorMessage}</p> : ""}
       <button type='submit'>Login</button>
     </form>
   )

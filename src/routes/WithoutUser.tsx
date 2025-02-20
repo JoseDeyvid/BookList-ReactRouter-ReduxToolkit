@@ -12,14 +12,11 @@ const WithoutUser = () => {
         const email = prompt("Digite o email para redefinição de senha: ")
         if (email) {
             sendPasswordResetEmail(auth, email)
-                .then(() => {
-                    // Password reset email sent!
-                    // ..
-                })
+            .then(() => {
+                alert("Verifique seu email para redefinir a senha.")
+            })
                 .catch((error) => {
-                    const errorCode = error.code;
-                    const errorMessage = error.message;
-                    // ..
+                    alert(error.message)
                 });
         }
 
