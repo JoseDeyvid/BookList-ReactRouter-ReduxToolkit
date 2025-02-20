@@ -35,6 +35,8 @@ const SignIn = () => {
   const handleChangeField = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
 
+    setErrorMessage("")
+
     setFormFields((prev) => ({ ...prev, [name]: value }))
   }
   return (
@@ -48,7 +50,7 @@ const SignIn = () => {
         <input type="password" name='password' value={formFields.password} onChange={handleChangeField} />
       </div>
       {errorMessage ? <p className={styles.errorMessage}>{errorMessage}</p> : ""}
-      <button type='submit'>Login</button>
+      <button type='submit' className={styles.submit}>Enter</button>
     </form>
   )
 }

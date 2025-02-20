@@ -3,6 +3,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: .5rem;
 
     .options {
         display: flex;
@@ -15,14 +16,25 @@
         }
 
         .option input + label{
-            padding: .3rem;
+            padding: .3rem .6rem;
             background-color: #ccc;
-            border-radius: 12px;
+            border-radius: 16px;
             cursor: pointer;
         }
         .option input[type="radio"]:checked + label{
             color: #fff;
             background-color: #000;
+        }
+    }
+    .forgotPassword {
+        cursor: pointer;
+        border: none;
+        background: none;
+        width: 400px;
+        text-align: right;
+
+        &:hover {
+            color: #555;
         }
     }
 }

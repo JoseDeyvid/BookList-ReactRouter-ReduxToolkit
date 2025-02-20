@@ -35,10 +35,10 @@ const WithoutUser = () => {
                 <div className={styles.option}>
                     <input type="radio" name='signup' id='signup' value={"signup"} onChange={(e) => setOptionSelected(e.target.value)} checked={optionSelected === "signup"} />
                     <label htmlFor='signup'>Signup</label>
-                </div>
-            </div>
+                </div>      
+            </div>  
             {optionSelected === "login" ? <SignIn /> : <SignUp />}
-            <button onClick={handleForgotPassword}>Forgot password?</button>
+            <button className={styles.forgotPassword} onClick={handleForgotPassword}>Forgot password?</button>
         </div>
     )
 }

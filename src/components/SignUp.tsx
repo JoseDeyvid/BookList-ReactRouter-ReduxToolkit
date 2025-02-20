@@ -37,25 +37,26 @@ const SignUp = () => {
   }
   const handleChangeField = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
+    setErrorMessage("")
 
     setFormFields((prev) => ({ ...prev, [name]: value }))
   }
   return (
     <form onSubmit={handleSubmit}>
-      <div>
+      <div className={styles.formControl}>
         <label htmlFor="">Email</label>
         <input type="email" name='email' value={formFields.email} onChange={(e) => handleChangeField(e)} />
       </div>
-      <div>
+      <div className={styles.formControl}>
         <label htmlFor="">Password</label>
         <input type="password" name='password' value={formFields.password} onChange={handleChangeField} />
       </div>
-      <div>
+      <div className={styles.formControl}>
         <label htmlFor="">Confirm Password</label>
         <input type="password" name='confirmPassword' value={formFields.confirmPassword} onChange={handleChangeField} />
       </div>
       {errorMessage ? <p className={styles.errorMessage}>{errorMessage}</p> : ""}
-      <button type='submit'>Register</button>
+      <button className={styles.submit} type='submit'>Register</button>
     </form>
   )
 }
