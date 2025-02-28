@@ -6,11 +6,15 @@ import { addBook, addBookByUser, booksSelector } from "../store/booksSlice";
 import { Book } from "../utils/types";
 import { useNavigate } from "react-router-dom";
 import styles from "./AddBook.module.scss";
+import { getAuth } from "firebase/auth";
 
 const AddBook = () => {
   const books = useSelector(booksSelector);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
+
+  const auth = getAuth();
+  const user = auth.currentUser
 
   const [title, setTitle] = useState("");
   const [cover, setCover] = useState("");
@@ -18,17 +22,21 @@ const AddBook = () => {
   const [synopsis, setSynopsis] = useState("");
 
   const handleAddBook = () => {
-    const newBook = {
-      author,
-      image_url: cover,
-      read: false,
-      title,
-      synopsis,
-    };
+    if (user) {
+      const newBook: Omit<Book, "id"> = {
+        author,
+        image_url: cover,
+        read: false,
+        title,
+        synopsis,
+        user_id: user.uid,
+      };
 
-    // dispatch(addBooks(newBook));
-    dispatch(addBookByUser())
-    navigate("/");
+      // dispatch(addBooks(newBook));
+      dispatch(addBookByUser(newBook))
+      navigate("/");
+    }
+
   };
   return (
     <div className={styles.container}>

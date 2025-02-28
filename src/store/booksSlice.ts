@@ -30,11 +30,11 @@ const bookSlice = createSlice({
     // Add reducers for additional action types here, and handle loading state as needed
     builder.addCase(addBookByUser.fulfilled, (state, action) => {
       // Add user to the state array
-      console.log(action.payload)
+      console.log("Payload: ", action.payload)
       console.log("Criado com sucesso.")
     }).addCase(addBookByUser.rejected, (state, action) => {
       console.log("algo deu errado!")
-      console.log(action.payload)
+      console.log(action.error)
     })
   }
 });
@@ -47,12 +47,17 @@ export default bookSlice.reducer;
 
 export const addBookByUser = createAsyncThunk(
   'books/addBook',
-  async () => {
-    const docRef = await addDoc(collection(db, "cities"), {
-      name: "Tokyo",
-      country: "Japan"
+  async (book: Omit<Book, "id">) => {
+    const { author, image_url, read, synopsis, title, user_id } = book
+    const docRef = await addDoc(collection(db, "books"), {
+      author,
+      image_url,
+      read,
+      synopsis,
+      title,
+      user_id
     });
     console.log("Document written with ID: ", docRef.id);
-    return docRef;
+    return { ...book, id: docRef.id };
   },
 )
