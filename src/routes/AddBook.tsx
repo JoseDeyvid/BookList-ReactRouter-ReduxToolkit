@@ -7,14 +7,13 @@ import { Book } from "../utils/types";
 import { useNavigate } from "react-router-dom";
 import styles from "./AddBook.module.scss";
 import { getAuth } from "firebase/auth";
+import { userSelector } from "../store/userSlice";
 
 const AddBook = () => {
   const books = useSelector(booksSelector);
+  const user = useSelector(userSelector)
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-
-  const auth = getAuth();
-  const user = auth.currentUser
 
   const [title, setTitle] = useState("");
   const [cover, setCover] = useState("");
@@ -29,10 +28,8 @@ const AddBook = () => {
         read: false,
         title,
         synopsis,
-        user_id: user.uid,
+        user_id: user.id,
       };
-
-      // dispatch(addBooks(newBook));
       dispatch(addBookByUser(newBook))
       navigate("/");
     }

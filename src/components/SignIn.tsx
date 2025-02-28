@@ -18,7 +18,7 @@ const SignIn = () => {
   const dispatch = useDispatch();
   onAuthStateChanged(auth, (user) => {
     if (user) {
-      dispatch(setUser({ email: user.email! }))
+      dispatch(setUser({ id: user.uid, email: user.email! }))
     } else {
       dispatch(setUser(null))
     }
