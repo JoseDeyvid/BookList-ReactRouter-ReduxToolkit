@@ -4,11 +4,27 @@ import Header from "../components/Header";
 import { useNavigate } from "react-router-dom";
 import styles from "./Home.module.scss";
 import { CiRead, CiUnread } from "react-icons/ci";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { collection, query, where, getDocs } from "firebase/firestore";
+import { db } from "../config/firebase";
 
 const Home = () => {
   const books = useSelector(booksSelector);
   const navigate = useNavigate();
+  useEffect(() => {
+    const loadBooks = async () => {
+      const q = query(collection(db, "books"), where("user_id", "==", "3"));
+
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+        console.log(doc.id, " => ", doc.data());
+      }, []);
+    }
+
+    loadBooks();
+
+  })
   return (
     <div>
       <Header />

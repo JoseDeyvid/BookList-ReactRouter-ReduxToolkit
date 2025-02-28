@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import Header from "../components/Header";
 import { useDispatch, useSelector } from "react-redux";
-import { addBook, booksSelector } from "../store/booksSlice";
+import { AppDispatch } from "../store/store";
+import { addBook, addBookByUser, booksSelector } from "../store/booksSlice";
 import { Book } from "../utils/types";
 import { useNavigate } from "react-router-dom";
 import styles from "./AddBook.module.scss";
 
 const AddBook = () => {
   const books = useSelector(booksSelector);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
   const [title, setTitle] = useState("");
@@ -25,7 +26,8 @@ const AddBook = () => {
       synopsis,
     };
 
-    dispatch(addBook(newBook));
+    // dispatch(addBooks(newBook));
+    dispatch(addBookByUser())
     navigate("/");
   };
   return (

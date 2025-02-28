@@ -5,6 +5,7 @@ export type Book = {
   title: string;
   synopsis?: string;
   read: boolean;
+  user_id: string
 };
 
 export type Note = {
