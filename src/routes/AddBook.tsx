@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Header from "../components/Header";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../store/store";
-import { addBook, addBookByUser, booksSelector } from "../store/booksSlice";
+import { addBookByUser, booksSelector } from "../store/booksSlice";
 import { Book } from "../utils/types";
 import { useNavigate } from "react-router-dom";
 import styles from "./AddBook.module.scss";

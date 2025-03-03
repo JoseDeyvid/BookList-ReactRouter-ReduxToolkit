@@ -2,8 +2,9 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "./store";
 import { Book } from "../utils/types";
 
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, query, where, getDocs } from "firebase/firestore";
 import { db } from "../config/firebase";
+import { data } from "react-router-dom";
 
 const initialState: Book[] = [];
 
@@ -11,37 +12,31 @@ const bookSlice = createSlice({
   name: "books",
   initialState,
   reducers: {
-    addBook: (state, action: PayloadAction<Omit<Book, "id">>) => {
-      const id = state.length
-        ? Math.max(...state.map((book) => book.id)) + 1
-        : 0;
-      state.push({ ...action.payload, id });
-    },
-    deleteBook: (state, action: PayloadAction<number>) => {
+    deleteBook: (state, action: PayloadAction<string>) => {
       return state.filter((book) => book.id !== action.payload);
     },
-    toogleBook: (state, action: PayloadAction<number>) => {
+    toogleBook: (state, action: PayloadAction<string>) => {
       state.map((book) => {
         if (book.id === action.payload) book.read = !book.read;
       });
     },
   },
   extraReducers: (builder) => {
-    // Add reducers for additional action types here, and handle loading state as needed
     builder.addCase(addBookByUser.fulfilled, (state, action) => {
-      // Add user to the state array
       console.log("Payload: ", action.payload)
       console.log("Criado com sucesso.")
     }).addCase(addBookByUser.rejected, (state, action) => {
       console.log("algo deu errado!")
       console.log(action.error)
+    }).addCase(listBooksByUser.fulfilled, (state, action) => {
+      return action.payload
     })
   }
 });
 
 
 export const booksSelector = (state: RootState) => state.books;
-export const { addBook, deleteBook, toogleBook } = bookSlice.actions;
+export const { deleteBook, toogleBook } = bookSlice.actions;
 
 export default bookSlice.reducer;
 
@@ -59,5 +54,20 @@ export const addBookByUser = createAsyncThunk(
     });
     console.log("Document written with ID: ", docRef.id);
     return { ...book, id: docRef.id };
+  },
+)
+
+export const listBooksByUser = createAsyncThunk(
+  'books/listBooksByUser',
+  async (user_id: string) => {
+    const books: Book[] = []
+    const q = query(collection(db, "books"), where("user_id", "==", user_id));
+
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      console.log(doc.id, " => ", doc.data());
+      books.push({id: doc.id, ...doc.data() as Omit<Book, "id">})
+    }, []);
+    return books;
   },
 )

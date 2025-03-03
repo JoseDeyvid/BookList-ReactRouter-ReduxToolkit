@@ -1,30 +1,28 @@
-import { useSelector } from "react-redux";
-import { booksSelector } from "../store/booksSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { booksSelector, listBooksByUser } from "../store/booksSlice";
 import Header from "../components/Header";
 import { useNavigate } from "react-router-dom";
 import styles from "./Home.module.scss";
 import { CiRead, CiUnread } from "react-icons/ci";
 import { useEffect, useState } from "react";
-import { collection, query, where, getDocs } from "firebase/firestore";
-import { db } from "../config/firebase";
+import { userSelector } from "../store/userSlice";
+import { AppDispatch } from "../store/store";
 
 const Home = () => {
   const books = useSelector(booksSelector);
+  const user = useSelector(userSelector);
+  const dispatch = useDispatch<AppDispatch>()
   const navigate = useNavigate();
   useEffect(() => {
     const loadBooks = async () => {
-      const q = query(collection(db, "books"), where("user_id", "==", "3"));
+      if (user) {
+        dispatch(listBooksByUser(user.id))
+      }
 
-      const querySnapshot = await getDocs(q);
-      querySnapshot.forEach((doc) => {
-        // doc.data() is never undefined for query doc snapshots
-        console.log(doc.id, " => ", doc.data());
-      }, []);
     }
-
     loadBooks();
 
-  })
+  }, [])
   return (
     <div>
       <Header />
