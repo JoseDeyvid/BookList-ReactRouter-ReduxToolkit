@@ -1,10 +1,11 @@
 import styles from "./Book.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { booksSelector, deleteBook, toogleBook } from "../store/booksSlice";
+import { booksSelector, deleteBookById, toogleBook } from "../store/booksSlice";
 import { IoMdArrowDropright, IoMdArrowDropdown, IoIosArrowRoundBack } from "react-icons/io";
 import { useState } from "react";
 import { addNote, notesSelector } from "../store/notesSlice";
+import { AppDispatch } from "../store/store";
 
 
 const Book = () => {
@@ -13,7 +14,7 @@ const Book = () => {
   const [noteBody, setNoteBody] = useState("");
   const navigate = useNavigate();
   const { id } = useParams();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const book = useSelector(booksSelector).filter(
     (book) => book.id === id
   )[0];
@@ -22,7 +23,7 @@ const Book = () => {
   );
 
   const handleDeleteBook = () => {
-    dispatch(deleteBook(book.id));
+    dispatch(deleteBookById(book.id));
     navigate("/");
   };
 

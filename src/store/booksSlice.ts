@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "./store";
 import { Book } from "../utils/types";
 
-import { collection, addDoc, query, where, getDocs } from "firebase/firestore";
+import { collection, addDoc, query, where, getDocs, deleteDoc, doc } from "firebase/firestore";
 import { db } from "../config/firebase";
 import { data } from "react-router-dom";
 
@@ -12,9 +12,6 @@ const bookSlice = createSlice({
   name: "books",
   initialState,
   reducers: {
-    deleteBook: (state, action: PayloadAction<string>) => {
-      return state.filter((book) => book.id !== action.payload);
-    },
     toogleBook: (state, action: PayloadAction<string>) => {
       state.map((book) => {
         if (book.id === action.payload) book.read = !book.read;
@@ -30,13 +27,15 @@ const bookSlice = createSlice({
       console.log(action.error)
     }).addCase(listBooksByUser.fulfilled, (state, action) => {
       return action.payload
+    }).addCase(deleteBookById.fulfilled, (state, action) => {
+      console.log("Deletou mesmo!")
     })
   }
 });
 
 
 export const booksSelector = (state: RootState) => state.books;
-export const { deleteBook, toogleBook } = bookSlice.actions;
+export const { toogleBook } = bookSlice.actions;
 
 export default bookSlice.reducer;
 
@@ -66,8 +65,15 @@ export const listBooksByUser = createAsyncThunk(
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
       console.log(doc.id, " => ", doc.data());
-      books.push({id: doc.id, ...doc.data() as Omit<Book, "id">})
+      books.push({ id: doc.id, ...doc.data() as Omit<Book, "id"> })
     }, []);
     return books;
+  },
+)
+
+export const deleteBookById = createAsyncThunk(
+  'books/deleteBookById',
+  async (id: string) => {
+    await deleteDoc(doc(db, "books", id))
   },
 )
