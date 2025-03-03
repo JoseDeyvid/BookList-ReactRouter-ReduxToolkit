@@ -15,7 +15,7 @@ const Book = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const book = useSelector(booksSelector).filter(
-    (book) => book.id === Number(id)
+    (book) => book.id === id
   )[0];
   const notes = useSelector(notesSelector).filter(
     (note) => note.book_id === Number(id)
