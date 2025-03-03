@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "./store";
 import { Book } from "../utils/types";
 
-import { collection, addDoc, query, where, getDocs, deleteDoc, doc } from "firebase/firestore";
+import { collection, addDoc, query, where, getDocs, deleteDoc, doc, updateDoc } from "firebase/firestore";
 import { db } from "../config/firebase";
 import { data } from "react-router-dom";
 
@@ -11,13 +11,7 @@ const initialState: Book[] = [];
 const bookSlice = createSlice({
   name: "books",
   initialState,
-  reducers: {
-    toogleBook: (state, action: PayloadAction<string>) => {
-      state.map((book) => {
-        if (book.id === action.payload) book.read = !book.read;
-      });
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder.addCase(addBookByUser.fulfilled, (state, action) => {
       console.log("Payload: ", action.payload)
@@ -29,13 +23,20 @@ const bookSlice = createSlice({
       return action.payload
     }).addCase(deleteBookById.fulfilled, (state, action) => {
       console.log("Deletou mesmo!")
+    }).addCase(updateBookById.fulfilled, (state, action) => {
+      console.log(action.payload)
+      state.map((book) => {
+        if (book.id === action.payload) {
+          book.read = !book.read
+        }
+      })
     })
   }
 });
 
 
 export const booksSelector = (state: RootState) => state.books;
-export const { toogleBook } = bookSlice.actions;
+// export const { } = bookSlice.actions;
 
 export default bookSlice.reducer;
 
@@ -75,5 +76,17 @@ export const deleteBookById = createAsyncThunk(
   'books/deleteBookById',
   async (id: string) => {
     await deleteDoc(doc(db, "books", id))
+  },
+)
+
+export const updateBookById = createAsyncThunk(
+  'books/updateBookById',
+  async ({ id, isRead }: { id: string, isRead: boolean }) => {
+    const bookRef = doc(db, "books", id);
+    console.log("Book ref: ", isRead)
+    await updateDoc(bookRef, {
+      read: !isRead
+    });
+    return id
   },
 )

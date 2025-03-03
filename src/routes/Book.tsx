@@ -1,7 +1,7 @@
 import styles from "./Book.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { booksSelector, deleteBookById, toogleBook } from "../store/booksSlice";
+import { booksSelector, deleteBookById, updateBookById } from "../store/booksSlice";
 import { IoMdArrowDropright, IoMdArrowDropdown, IoIosArrowRoundBack } from "react-icons/io";
 import { useState } from "react";
 import { addNote, notesSelector } from "../store/notesSlice";
@@ -56,7 +56,7 @@ const Book = () => {
                   <input
                     type="checkbox"
                     checked={book.read}
-                    onChange={() => dispatch(toogleBook(book.id))}
+                    onChange={() => dispatch(updateBookById({id: book.id, isRead: book.read}))}
                   />
                   <label>{book.read ? "Lido" : "Não lido"}</label>
                 </div>
