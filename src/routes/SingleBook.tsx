@@ -3,24 +3,52 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { booksSelector, deleteBookById, updateBookById } from "../store/booksSlice";
 import { IoMdArrowDropright, IoMdArrowDropdown, IoIosArrowRoundBack } from "react-icons/io";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { addNote, notesSelector } from "../store/notesSlice";
 import { AppDispatch } from "../store/store";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../config/firebase";
+import { Book } from "../utils/types";
 
 
-const Book = () => {
+const SingleBook = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [noteTitle, setNoteTitle] = useState("");
   const [noteBody, setNoteBody] = useState("");
   const navigate = useNavigate();
   const { id } = useParams();
   const dispatch = useDispatch<AppDispatch>();
-  const book = useSelector(booksSelector).filter(
+  // const book = useSelector(booksSelector).filter(
+  //   (book) => book.id === id
+  // )[0];
+  const [book, setBook] = useState<Book>(useSelector(booksSelector).filter(
     (book) => book.id === id
-  )[0];
+  )[0])
   const notes = useSelector(notesSelector).filter(
     (note) => note.book_id === Number(id)
   );
+  useEffect(() => {
+    const fetchBook = async () => {
+      if (id && !book) {
+        try {
+          const docRef = doc(db, "books", id);
+          const docSnap = await getDoc(docRef);
+
+          if (docSnap.exists()) {
+            console.log({ id: docSnap.id, ...docSnap.data() as Omit<Book, "id"> })
+            setBook({ id: docSnap.id, ...docSnap.data() as Omit<Book, "id"> })
+          } else {
+            // docSnap.data() will be undefined in this case
+            console.log("No such document!");
+          }
+        } catch (error) {
+
+        }
+      }
+
+    }
+    fetchBook();
+  }, [])
 
   const handleDeleteBook = () => {
     dispatch(deleteBookById(book.id));
@@ -56,7 +84,7 @@ const Book = () => {
                   <input
                     type="checkbox"
                     checked={book.read}
-                    onChange={() => dispatch(updateBookById({id: book.id, isRead: book.read}))}
+                    onChange={() => dispatch(updateBookById({ id: book.id, isRead: book.read }))}
                   />
                   <label>{book.read ? "Lido" : "Não lido"}</label>
                 </div>
@@ -97,4 +125,4 @@ const Book = () => {
   );
 };
 
-export default Book;
+export default SingleBook;

@@ -14,14 +14,9 @@ const Home = () => {
   const dispatch = useDispatch<AppDispatch>()
   const navigate = useNavigate();
   useEffect(() => {
-    // const loadBooks = async () => {
     if (user) {
       dispatch(listBooksByUser(user.id))
     }
-
-    // }
-    // loadBooks();
-
   }, [])
   return (
     <div>
