@@ -1,3 +1,4 @@
 alterações sendo desfeitas.
 Mexendo na segunda linha
-Mexendo
+Mexendo em uma linha
+Fazer alterações para testar o merge
